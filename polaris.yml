@@ -1,0 +1,29 @@
+version: "1"
+project:
+  name: ${scm.git.repo}
+  branch: ${scm.git.branch}
+  revision:
+    name: ${scm.git.commit}
+    date: ${scm.git.commit.date}
+capture:
+  fileSystem:
+    javascript:
+      extensions: [js, ts]
+      files:
+        - directory: ${project.projectDir}/lib/
+        - directory: ${project.projectDir}/test/
+        - directory: ${project.projectDir}/bin/
+        - excludeRegex: node_modules|bower_components|vendor
+analyze:
+  mode: central
+  coverity:
+    cov-analyze:
+      - --disable-default
+      - --security
+      - --enable-audit-mode
+      - --webapp-security
+    usebudaforjavadotnet: disable
+install:
+  coverity:
+    version: default
+serverUrl: https://contentful.polaris.synopsys.com
